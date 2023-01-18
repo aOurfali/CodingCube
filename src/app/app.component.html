@@ -2,21 +2,12 @@
   <div class="container">
     <div class="container">
       <div class="alert alert-dark">
-        <h1>Kodierwürfel</h1>
-        <div class="container">
-          <label>Bitte geben Sie Ihren Text ein:</label>
-          <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-            <fieldset>
-              <textarea id = "input-text" name="inputText" ngModel required #inputText="ngModel"></textarea>
-            </fieldset>
-            <label>Bitte geben Sie das Lösungswort ein:</label>
-            <fieldset>
-              <input id = "input-word" name="inputWord" ngModel>
-            </fieldset>
-            <app-decrypt [item]="encrypted"></app-decrypt>
-          </form>
-          <!--<app-decrypt [item]="decrypted"></app-decrypt>-->
-        </div>
+        <h1>{{title}}</h1>
+        <nav>
+          <a class="nav-tabs mb-2 me-2" routerLink="/encrypt">Verschlüsseln</a>
+          <a class="nav-tabs mb-2 me-2" routerLink="/decrypt">Entschlüsseln</a>
+        </nav>
+        <router-outlet></router-outlet>
       </div>
      </div>
    </div>

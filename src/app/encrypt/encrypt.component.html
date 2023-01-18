@@ -1,14 +1,25 @@
-<ng-template #content let-c="close" let-d="dismiss">
-	<div class="modal-header">
-	  <h4 class="modal-title" id="modal-basic-title">Ihre verschlüsselte Nachricht</h4>
-	  <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
-	</div>
-	<div class="modal-body">
-	  <p>{{item}}</p>
-	</div>
-	<div class="modal-footer">
-	  <button type="button" class="btn btn-outline-primary" (click)="copyText()" (click)="d('Cross click')">Text Koppieren</button>
-	</div>
-</ng-template>
-
-<button class="btn btn-outline-primary mb-2 me-2" (click)="openScrollableContent(content)">Verschlüsselte Nachricht</button>
+<div class="container">
+	<label>Bitte geben Sie Ihren Text ein:</label>
+	<form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+	  <fieldset>
+		<textarea id = "input-text" name="inputText" ngModel required #inputText="ngModel"></textarea>
+	  </fieldset>
+	  <label>Bitte geben Sie das Lösungswort ein:</label>
+	  <fieldset>
+		<input id = "input-word" name="inputWord" ngModel>
+	  </fieldset>
+	  <ng-template #content let-c="close" let-d="dismiss">
+		<div class="modal-header">
+		  <h4 class="modal-title" id="modal-basic-title">Ihre verschlüsselte Nachricht</h4>
+		  <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+		</div>
+		<div class="modal-body">
+		  <p>{{encrypted}}</p>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-outline-primary" (click)="copyText()" (click)="d('Cross click')">Text Koppieren</button>
+		</div>
+	</ng-template>
+	<button class="btn btn-outline-primary mb-2 me-2" (click)="openScrollableContent(content)">Verschlüsselte Nachricht</button>
+	</form>
+</div>
