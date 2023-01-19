@@ -45,12 +45,8 @@ export class EncryptComponent {
  	  return justIndices;
  	}
 
- 	transpose(matrix: any[]) {
- 	  let [row] = matrix;
- 	  return row.map((value: any, column: any) => matrix.map(row => row[column]));
- 	}
-
  	onSubmit(f: NgForm) {
+		
  	  	let word: string = f.value.inputWord;
  	  	let text: string = f.value.inputText;
 
@@ -65,39 +61,30 @@ export class EncryptComponent {
  	  	this.arrayAsVector = [...new Array(this.lines)].map(el => new Array(this.columns));
 
  	  	const textChars = text.split('');
- 	  	let l = 0;
 
+ 	  	let l = 0;
  	  	for (let i = 0; i < this.lines; i++) {
  	  	  for (let j = 0; j < this.columns; j++) {
  	  	    if( l < text.length)
  	  	    {
- 	  	      if(textChars[l] == ' ')
- 	  	      {
- 	  	        this.arrayAsVector[i][j] = '_';
+				this.arrayAsVector[i][j] = textChars[l];
  	  	        l++;
- 	  	      }
- 	  	      else {
- 	  	        this.arrayAsVector[i][j] = textChars[l];
- 	  	        l++;
- 	  	      }
  	  	    }
  	  	    else {
- 	  	      this.arrayAsVector[i][j] = '_';
+ 	  	      	this.arrayAsVector[i][j] = ' ';
  	  	    }
  	  	  }
  	  	}
-
- 	  	let newMatrix = this.transpose(this.arrayAsVector);
 	  
  	  	this.columnsText = word.split('');
 	  
  	  	let sortedIndices = this.sortIndices(this.columnsText);
 
  	  	let outputMatrix = [...new Array(this.columns)].map(el => new Array(this.lines));
-
+		
  	  	for (let i = 0; i < this.columns; i++) {
  	  	  for (let j = 0; j < this.lines; j++) {
- 	  	    outputMatrix[i][j] = newMatrix[sortedIndices[i]][j];
+ 	  	    outputMatrix[i][j] = this.arrayAsVector[j][sortedIndices[i]];
  	  	  }
  	  	}
 		

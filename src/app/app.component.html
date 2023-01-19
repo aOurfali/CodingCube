@@ -4,8 +4,14 @@
       <div class="alert alert-dark">
         <h1>{{title}}</h1>
         <nav>
-          <a class="nav-tabs mb-2 me-2" routerLink="/encrypt">Verschlüsseln</a>
-          <a class="nav-tabs mb-2 me-2" routerLink="/decrypt">Entschlüsseln</a>
+          <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-tabs mb-2 me-2" href="/encrypt">Verschlüsseln</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-tabs mb-2 me-2" href="/decrypt">Entschlüsseln</a>
+            </li>
+          </ul>
         </nav>
         <router-outlet></router-outlet>
       </div>
