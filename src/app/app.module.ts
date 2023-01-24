@@ -9,6 +9,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EncryptComponent } from './encrypt/encrypt.component';
 import { DecryptComponent } from './decrypt/decrypt.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ClipboardModule } from 'ngx-clipboard';
     FormsModule,
     ReactiveFormsModule,
     ClipboardModule,
+    HttpClientModule,
     NgbModule
   ],
   providers: [NgbModalConfig, NgbModal],

@@ -2,6 +2,7 @@ import { Component} from '@angular/core';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardService } from 'ngx-clipboard';
 import {NgForm} from '@angular/forms';
+import { EncryptionService } from '../encryption.service'
 
 @Component({
   selector: 'app-encrypt',
@@ -10,15 +11,15 @@ import {NgForm} from '@angular/forms';
 })
 export class EncryptComponent {
 
-	columns = 0;
- 	lines = 0;
- 	arrayAsVector = new Array();
+	inputAsMatrix = new Array();
  	columnsText = [''];
- 	encrypted: string = '';
- 	lastEncrypted: string = '';
+ 	encryptedText: string = '';
+	errMesg: string = '';
 	
-	constructor(config: NgbModalConfig, private modalService: NgbModal, private clipboardApi: ClipboardService) {
-		// customize default values of modals used by this component tree
+	constructor(config: 					NgbModalConfig,
+				private modalService: 		NgbModal,
+				private clipboardApi: 		ClipboardService,
+				private encryptionService: 	EncryptionService) {
 		config.backdrop = 'static';
 		config.keyboard = false;
 	}
@@ -28,81 +29,73 @@ export class EncryptComponent {
 	}
 
 	copyText() {
-		this.clipboardApi.copyFromContent(this.encrypted);
+		this.clipboardApi.copyFromContent(this.encryptedText);
 	}
-
- 	sortIndices(toSort: string[]) {
-
- 	  let sortWithIndices = new Array(toSort.length);
- 	  let justIndices = new Array(toSort.length);
- 	  for (var i = 0; i < toSort.length; i++) {
- 	    sortWithIndices[i] = [toSort[i], i];
- 	  }
- 	  sortWithIndices.sort();
- 	  for (var i = 0; i < toSort.length; i++) {
- 	    justIndices[i] = sortWithIndices[i][1];
- 	  }
- 	  return justIndices;
- 	}
 
  	onSubmit(f: NgForm) {
 		
  	  	let word: string = f.value.inputWord;
  	  	let text: string = f.value.inputText;
 
- 	  	this.columns = word.length;
- 	  	if(text.length % word.length == 0) {
- 	  	  this.lines = text.length/word.length;
- 	  	}
- 	  	else{
- 	  	  this.lines = parseInt(String(text.length/word.length)) + 1;
- 	  	}
+		   if ( text == '' || text == ' ' ) {
+			this.errMesg = 'Der Text ist leer, bitte geben Sie einen Text ein!'
+			alert(this.errMesg);
+		}
+		else if ( word == '' || word == ' ' ) {
+			this.errMesg = 'Bitte geben Sie ein Wort ein!'
+			alert(this.errMesg);
+		}
+		else {
+ 	  		let columns = word.length;
+			let lines = 0;
+ 	  		if(text.length % word.length == 0) {
+ 	  		  lines = text.length/word.length;
+ 	  		}
+ 	  		else{
+ 	  		  lines = parseInt(String(text.length/word.length)) + 1;
+ 	  		}
 
- 	  	this.arrayAsVector = [...new Array(this.lines)].map(el => new Array(this.columns));
+ 	  		this.inputAsMatrix = [...new Array(lines)].map(el => new Array(columns));
 
- 	  	const textChars = text.split('');
+ 	  		const textChars = text.split('');
 
- 	  	let l = 0;
- 	  	for (let i = 0; i < this.lines; i++) {
- 	  	  for (let j = 0; j < this.columns; j++) {
- 	  	    if( l < text.length)
- 	  	    {
-				this.arrayAsVector[i][j] = textChars[l];
- 	  	        l++;
- 	  	    }
- 	  	    else {
- 	  	      	this.arrayAsVector[i][j] = ' ';
- 	  	    }
- 	  	  }
- 	  	}
+ 	  		let l = 0;
+ 	  		for (let i = 0; i < lines; i++) {
+ 	  		  for (let j = 0; j < columns; j++) {
+ 	  		    if( l < text.length)
+ 	  		    {
+					this.inputAsMatrix[i][j] = textChars[l];
+ 	  		        l++;
+ 	  		    }
+ 	  		    else {
+ 	  		      	this.inputAsMatrix[i][j] = ' ';
+ 	  		    }
+ 	  		  }
+ 	  		}
 	  
- 	  	this.columnsText = word.split('');
-	  
- 	  	let sortedIndices = this.sortIndices(this.columnsText);
+ 	  		this.columnsText = word.split('');
+			
+ 	  		let sortedIndices = this.encryptionService.sortIndices(this.columnsText);
 
- 	  	let outputMatrix = [...new Array(this.columns)].map(el => new Array(this.lines));
-		
- 	  	for (let i = 0; i < this.columns; i++) {
- 	  	  for (let j = 0; j < this.lines; j++) {
- 	  	    outputMatrix[i][j] = this.arrayAsVector[j][sortedIndices[i]];
- 	  	  }
- 	  	}
-		
- 	  	let outputArray = new Array();
+ 	  		let outputMatrix = [...new Array(columns)].map(el => new Array(lines));
+			
+ 	  		for (let i = 0; i < columns; i++) {
+ 	  		  for (let j = 0; j < lines; j++) {
+ 	  		    outputMatrix[i][j] = this.inputAsMatrix[j][sortedIndices[i]];
+ 	  		  }
+ 	  		}
 
- 	  	for(let i = 0; i < outputMatrix.length; i++) {
- 	    	outputArray =  outputArray.concat(outputMatrix[i]);
- 	  	}
+ 	  		let outputArray = new Array();
 
-		this.encrypted = '';
-		
- 	  	for(let i = 0; i < outputArray.length; i++) {
- 	    	if ( outputArray[i] == '_') {
- 	      	this.encrypted = this.encrypted.concat(' ');
- 	    	}
- 	    	else {
- 	      	this.encrypted = this.encrypted.concat(outputArray[i]);
- 	    	}
+ 	  		for(let i = 0; i < outputMatrix.length; i++) {
+ 	    		outputArray =  outputArray.concat(outputMatrix[i]);
+ 	  		}
+
+			this.encryptedText = '';
+
+ 	  		for(let i = 0; i < outputArray.length; i++) {
+ 	      		this.encryptedText = this.encryptedText.concat(outputArray[i]);
+			}
  	  	}
  	}
 }
