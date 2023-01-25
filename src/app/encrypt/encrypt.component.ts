@@ -37,7 +37,7 @@ export class EncryptComponent {
  	  	let word: string = f.value.inputWord;
  	  	let text: string = f.value.inputText;
 
-		   if ( text == '' || text == ' ' ) {
+		if ( text == '' || text == ' ' ) {
 			this.errMesg = 'Der Text ist leer, bitte geben Sie einen Text ein!'
 			alert(this.errMesg);
 		}
@@ -55,10 +55,10 @@ export class EncryptComponent {
  	  		  lines = parseInt(String(text.length/word.length)) + 1;
  	  		}
 
- 	  		this.inputAsMatrix = [...new Array(lines)].map(el => new Array(columns));
-
  	  		const textChars = text.split('');
 
+			this.inputAsMatrix = [...new Array(lines)].map(el => new Array(columns));
+			
  	  		let l = 0;
  	  		for (let i = 0; i < lines; i++) {
  	  		  for (let j = 0; j < columns; j++) {
@@ -72,13 +72,11 @@ export class EncryptComponent {
  	  		    }
  	  		  }
  	  		}
-	  
  	  		this.columnsText = word.split('');
 			
  	  		let sortedIndices = this.encryptionService.sortIndices(this.columnsText);
 
  	  		let outputMatrix = [...new Array(columns)].map(el => new Array(lines));
-			
  	  		for (let i = 0; i < columns; i++) {
  	  		  for (let j = 0; j < lines; j++) {
  	  		    outputMatrix[i][j] = this.inputAsMatrix[j][sortedIndices[i]];
@@ -86,13 +84,11 @@ export class EncryptComponent {
  	  		}
 
  	  		let outputArray = new Array();
-
  	  		for(let i = 0; i < outputMatrix.length; i++) {
  	    		outputArray =  outputArray.concat(outputMatrix[i]);
  	  		}
 
 			this.encryptedText = '';
-
  	  		for(let i = 0; i < outputArray.length; i++) {
  	      		this.encryptedText = this.encryptedText.concat(outputArray[i]);
 			}

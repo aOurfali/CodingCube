@@ -7,7 +7,7 @@ export class EncryptionService {
 
   constructor() { }
 
-  sortIndices(toSort: string[]) {
+  sortIndices(toSort: string[]): number[] {
 
     let sortWithIndices = new Array(toSort.length);
     let justIndices = new Array(toSort.length);
@@ -19,11 +19,6 @@ export class EncryptionService {
       justIndices[i] = sortWithIndices[i][1];
     }
     return justIndices;
-  }
-
-  transpose(matrix: any[]) {
-    let [row] = matrix;
-    return row.map((value: any, column: any) => matrix.map(row => row[column]));
   }
 
 }

@@ -77,8 +77,9 @@ export class DecryptComponent {
 			for (let i = 0; i < columns; i++) {
 				let index = 0;
 				for (let k = 0; k < columns; k++) {
-					if ( sortedIndices[k] == i ) 
+					if ( sortedIndices[k] == i ) {
 						index = k;
+					}
 				}
 				for (let j = 0; j < lines; j++) {
 					tempMatrix[i][j] = this.inputAsMatrix[index][j];

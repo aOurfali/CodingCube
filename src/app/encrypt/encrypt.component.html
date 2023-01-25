@@ -2,7 +2,7 @@
 	<label>Bitte geben Sie Ihren Text ein:</label>
 	<form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
 	  <fieldset>
-		<textarea id = "input-text" name="inputText" ngModel required #inputText="ngModel"></textarea>
+		<textarea id = "input-text" name="inputText" ngModel #inputText="ngModel"></textarea>
 	  </fieldset>
 	  <label>Bitte geben Sie das Lösungswort ein:</label>
 	  <fieldset>
