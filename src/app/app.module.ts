@@ -10,6 +10,7 @@ import { EncryptComponent } from './encrypt/encrypt.component';
 import { DecryptComponent } from './decrypt/decrypt.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { HttpClientModule } from '@angular/common/http';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     ClipboardModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    GraphQLModule
   ],
   providers: [NgbModalConfig, NgbModal],
   bootstrap: [AppComponent]
