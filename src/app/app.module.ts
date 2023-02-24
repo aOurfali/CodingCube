@@ -11,6 +11,9 @@ import { DecryptComponent } from './decrypt/decrypt.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { HttpClientModule } from '@angular/common/http';
 import { GraphQLModule } from './graphql.module';
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
 
 @NgModule({
   declarations: [
@@ -26,9 +29,24 @@ import { GraphQLModule } from './graphql.module';
     ClipboardModule,
     HttpClientModule,
     NgbModule,
-    GraphQLModule
+    GraphQLModule,
+    ApolloModule,
+    HttpClientModule
   ],
-  providers: [NgbModalConfig, NgbModal],
+  providers: [NgbModalConfig,
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory(httpLink: HttpLink) {
+        return {
+          cache: new InMemoryCache(),
+          link: httpLink.create({
+            uri: 'https://48p1r2roz4.sse.codesandbox.io',
+          }),
+        };
+      },
+      deps: [HttpLink],
+    },
+    NgbModal],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
